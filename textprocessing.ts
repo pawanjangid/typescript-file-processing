@@ -14,7 +14,7 @@ import * as readline from 'readline';
         let data  = [];
         for await (const line of rl) {
         var wordArray:any = {};
-        var words = line.split(" ");
+        var words = line.split(/\s{2,8}/);
         let newWords = words.filter((a) => a);
         //console.log(newWords);
         for (let i = 0; i < newWords.length; i++) {
