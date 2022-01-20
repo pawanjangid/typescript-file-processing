@@ -30,5 +30,5 @@ import * as readline from 'readline';
       }
     
 
-const textFilePath = path.resolve(__dirname, 'files/COUNTR2.TXT');
+const textFilePath = path.resolve(__dirname, 'files/MEDICL.TXT');
 processLineByLine(textFilePath);
