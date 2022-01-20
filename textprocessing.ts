@@ -13,15 +13,18 @@ import * as readline from 'readline';
       
         let data  = [];
         for await (const line of rl) {
-        
+        var wordArray:any = {};
         var words = line.split(" ");
         let newWords = words.filter((a) => a);
-        console.log(newWords);
+        //console.log(newWords);
+        for (let i = 0; i < newWords.length; i++) {
+            let key = 'Title_'+i;
+            wordArray[key] = newWords[i]; 
+        }
         
-        data.push(newWords);
+        data.push(wordArray);
             
         }
-        //console.log(data);
             var object = JSON.stringify(data);
             console.log(object);
       }
