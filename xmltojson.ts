@@ -5,13 +5,13 @@ import * as xml2js from "xml2js";
 
 const xmlFilePath = path.resolve(__dirname, 'files/AahProductFile.xml');
 const fileContent = fs.readFileSync(xmlFilePath, { encoding: 'utf-8' });
-// var options = {
-//     compact: true, ignoreComment: true, spaces: 4, mergeCDATA: false,
-//     xmlns: false,
-//     attrsAsObject: false,
-//     explicitArray: false
-// };
-// const parser = new xml2js.Parser(options);
+var options = {
+    compact: true, ignoreComment: true, spaces: 4, mergeCDATA: false,
+    xmlns: false,
+    attrsAsObject: false,
+    explicitArray: false
+};
+const parser = new xml2js.Parser(options);
 // var result:any = convert.xml2js(fileContent, options);
 // let data:any = result.AahProductFile.Product
 // for (var i in data) {
@@ -28,12 +28,7 @@ fs.readFile(xmlFilePath, { encoding: 'utf-8' }, function (err, data) {
 
         for (var i in data) {
             console.log("data[i] :::", data[i])
-            
+
         }
     });
 });
-
-
-const wpSampleXML = fs.readFileSync('wp-skeleton.xml');
-const xmlParser = new xml2js.Parser({ cdata: true });
-    const sampleWPJSON = await xmlParser.parseStringPromise(wpSampleXML);
