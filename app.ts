@@ -77,6 +77,24 @@ let wholesellerData = {
 executeTask(wholesellerData);
 
 
+
+// let request = {
+//     FilePath:'',
+//     FileType:'csv',
+//     Headers:[
+//         {
+//             Title:'In-Csv',
+//             Label:"Reqeust"
+//         },
+//         {
+//             Title:'In-Csv',
+//             Label:"Request"
+//         }
+//     ]
+// }
+
+
+
 // const textFilePath = path.resolve(__dirname, 'files/MEDICL.TXT');
 // console.log(textFileProcessor(textFilePath));
 
