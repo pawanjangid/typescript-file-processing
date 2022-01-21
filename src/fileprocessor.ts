@@ -4,7 +4,11 @@ import * as readline from 'readline';
 import * as CsvParse from 'csv-parse';
 import * as xlsx from "xlsx";
 
-export const textFileProcessor = async (path:any) =>{
+export const textFileProcessor = async (path:any,request:any) =>{
+    //let headers = request.headers;
+    // request from parent function will be like
+    
+    
     const fileStream = fs.createReadStream(path);
       
         const rl = readline.createInterface({
@@ -15,11 +19,9 @@ export const textFileProcessor = async (path:any) =>{
         let data  = [];
         for await (const line of rl) {
             var wordArray:any = {};
-            var words = line.split(/\s{2,8}/);
-            let newWords = words.filter((a) => a);
-        for (let i = 0; i < newWords.length; i++) {
-            let key = 'Title_'+i;
-            wordArray[key] = newWords[i]; 
+        for (let i = 0; i < request.Headers.length; i++) {
+          var obj  = request.Headers[i];
+            wordArray[obj.title] = line.substring(obj.start,obj.length+obj.start); 
         }
         data.push(wordArray);
     }
