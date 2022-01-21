@@ -68,9 +68,9 @@ async function executeTask(data: any) {
 }
 
 let wholesellerData = {
-    FilePath: path.resolve(__dirname, 'files/process.xlsx'),
+    FilePath: path.resolve(__dirname, 'files/MEDICL.TXT'),
     SupplierCode: "AAH",
-    FileExtension: "XLSX",
+    FileExtension: "TXT",
     SkipRows: 0,
     TotalColumn: 10
 }
