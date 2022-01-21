@@ -1,4 +1,3 @@
-import {textFileProcessor,csvFileProcessor,xlsxFileProcessor} from "./src/fileprocessor"
 import * as Handler from "./src/importerHandler/handler"
 import * as path from 'path';
 
@@ -6,92 +5,166 @@ async function executeTask(data: any) {
     switch (data.SupplierCode) {
 
         case 'AAH'://AAH Pharmaceuticals
+            console.log('*** AAH Pharmaceuticals ***');
             await Handler.AAHImporterHandler(data)
             break;
 
         case 'AHL'://Alliance Healthcare
-            console.log('Alliance Healthcare');
+            console.log('*** Alliance Healthcare ***');
             await Handler.AHLImpoterHandler(data)
             break;
 
         case 'CAV'://Cavendish
-            console.log('CAV');
+            console.log('*** Cavendish ***');
             await Handler.CAVImpoterHandler(data)
             break;
 
         case 'DEP'://DE Pharma
-            console.log('DEP');
+            console.log('*** DE Pharma ***');
             await Handler.DEPImpoterHandler(data)
             break;
 
         case 'EPO'://Trident/Enterprise
-            console.log('EPO');
+            console.log('*** Trident/Enterprise ***');
             await Handler.EPOImpoterHandler(data)
             break;
 
         case 'ETH'://Ethigen
-            console.log('ETH');
+            console.log('*** Ethigen ***');
             await Handler.ETHImpoterHandler(data)
             break;
 
         case 'LEX'://Lexon
-            console.log('LEX');
+            console.log('*** Lexon ***');
             await Handler.LEXImpoterHandler(data)
             break;
 
         case 'OTD'://OTC Direct
-            console.log('OTD');
+            console.log('*** OTC Direct ***');
             await Handler.OTDImpoterHandler(data)
             break;
 
         case 'SAN'://Paydens Sangers
-            console.log('SAN');
+            console.log('*** Paydens Sangers ***');
             await Handler.SANImpoterHandler(data)
             break;
 
         case 'PHD'://Phoenix Healthcare Distribution
-            console.log('PHD');
+            console.log('*** Phoenix Healthcare Distribution ***');
             await Handler.PHDImpoterHandler(data)
             break;
 
         case 'SIG'://Sigma
-            console.log('SIG');
+            console.log('*** Sigma ***');
             await Handler.SIGImpoterHandler(data)
             break;
 
         case 'CND'://C+D
-            console.log('CND');
+            console.log('*** C+D ***');
             await Handler.CNDImpoterHandler(data)
             break;
-
     }
 }
 
 let wholesellerData = {
     FilePath: path.resolve(__dirname, 'files/MEDICL.TXT'),
-    SupplierCode: "AAH",
+    SupplierCode: "AHL",
     FileExtension: "TXT",
-    SkipRows: 0,
-    TotalColumn: 10
+    Headers: [
+        {
+            title: "Description",
+            start: 7,
+            length: 34
+        },
+        {
+            title: "PackSize",
+            start: 41,
+            length: 3
+        },
+        {
+            title: "Price",
+            start: 45,
+            length: 6
+        },
+        {
+            title: "PipCode",
+            start: 78,
+            length: 7
+        },
+        {
+            title: "EAN",
+            start: 85,
+            length: 13
+        },
+    ]
 }
 executeTask(wholesellerData);
 
 
 
-// let request = {
+// let csvHeader = {
 //     FilePath:'',
 //     FileType:'csv',
 //     Headers:[
 //         {
-//             Title:'In-Csv',
-//             Label:"Reqeust"
+//             Title:'LinkCode',
+//             Label:"Order Code"
 //         },
 //         {
-//             Title:'In-Csv',
-//             Label:"Request"
+//             Title:'Description',
+//             Label:"Description"
+//         },
+//         {
+//             Title:'PackSize',
+//             Label:"Pack Size"
+//         },
+//         {
+//             Title:'PipCode',
+//             Label:"Pip Code"
+//         },
+//         {
+//             Title:'TradePrice',
+//             Label:"Price"
+//         },
+//         {
+//             Title:'Ean',
+//             Label:"EAN"
+//         },
+//         {
+//             Title:'MinIssueQuantity',
+//             Label:"Outer Pack"
 //         }
 //     ]
 // }
+
+// let txtHeader = [
+//     {
+//         title: "Description",
+//         start: 7,
+//         length: 34
+//     },
+//     {
+//         title: "PackSize",
+//         start: 41,
+//         length: 3
+//     },
+//     {
+//         title: "Price",
+//         start: 45,
+//         length: 6
+//     },
+//     {
+//         title: "PipCode",
+//         start: 78,
+//         length: 7
+//     },
+//     {
+//         title: "EAN",
+//         start: 85,
+//         length: 13
+//     },
+
+// ]
 
 
 

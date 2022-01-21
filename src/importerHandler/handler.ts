@@ -1,14 +1,11 @@
 import {BaseImporter} from "../base/baseImporter"
-import* as Handler from "../readerFunctions/fileReader"
+import* as Handler from "../readersFunctions/fileReader"
 
 
 export async function AAHImporterHandler(data: BaseImporter) {
     try{
         const result = await getfileReader(data);
         console.log("result --->",result)
-        if(!result){
-            return "Result not found";
-        }
         return result;
     }catch(err){
         console.log("Exceptions from AAHPharmaFunctions ::",err)
@@ -18,9 +15,6 @@ export async function AAHImporterHandler(data: BaseImporter) {
 export async function AHLImpoterHandler(data: BaseImporter) {
     try{
         const result = await getfileReader(data);
-        if(!result){
-            return "Result not found";
-        }
         return result;
     }catch(err){
         console.log("Exceptions from AHLImpoterHandler ::",err)
@@ -30,9 +24,6 @@ export async function AHLImpoterHandler(data: BaseImporter) {
 export async function CAVImpoterHandler(data: BaseImporter) {
     try{
         const result = await getfileReader(data);
-        if(!result){
-            return "Result not found";
-        }
         return result;
     }catch(err){
         console.log("Exceptions from CAVImpoterHandler ::",err)
@@ -42,9 +33,6 @@ export async function CAVImpoterHandler(data: BaseImporter) {
 export async function DEPImpoterHandler(data: BaseImporter) {
     try{
         const result = await getfileReader(data);
-        if(!result){
-            return "Result not found";
-        }
         return result;
     }catch(err){
         console.log("Exceptions from DEPImpoterHandler ::",err)
@@ -54,9 +42,6 @@ export async function DEPImpoterHandler(data: BaseImporter) {
 export async function EPOImpoterHandler(data: BaseImporter) {
     try{
         const result = await getfileReader(data);
-        if(!result){
-            return "Result not found";
-        }
         return result;
     }catch(err){
         console.log("Exceptions from EPOImpoterHandler ::",err)
@@ -66,9 +51,6 @@ export async function EPOImpoterHandler(data: BaseImporter) {
 export async function ETHImpoterHandler(data: BaseImporter) {
     try{
         const result = await getfileReader(data);
-        if(!result){
-            return "Result not found";
-        }
         return result;
     }catch(err){
         console.log("Exceptions from ETHImpoterHandler ::",err)
@@ -78,9 +60,6 @@ export async function ETHImpoterHandler(data: BaseImporter) {
 export async function LEXImpoterHandler(data: BaseImporter) {
     try{
         const result = await getfileReader(data);
-        if(!result){
-            return "Result not found";
-        }
         return result;
     }catch(err){
         console.log("Exceptions from LEXImpoterHandler ::",err)
@@ -90,9 +69,6 @@ export async function LEXImpoterHandler(data: BaseImporter) {
 export async function OTDImpoterHandler(data: BaseImporter) {
     try{
         const result = await getfileReader(data);
-        if(!result){
-            return "Result not found";
-        }
         return result;
     }catch(err){
         console.log("Exceptions from OTDImpoterHandler ::",err)
@@ -102,9 +78,6 @@ export async function OTDImpoterHandler(data: BaseImporter) {
 export async function SANImpoterHandler(data: BaseImporter) {
     try{
         const result = await getfileReader(data);
-        if(!result){
-            return "Result not found";
-        }
         return result;
     }catch(err){
         console.log("Exceptions from SANImpoterHandler ::",err)
@@ -114,9 +87,6 @@ export async function SANImpoterHandler(data: BaseImporter) {
 export async function PHDImpoterHandler(data: BaseImporter) {
     try{
         const result = await getfileReader(data);
-        if(!result){
-            return "Result not found";
-        }
         return result;
     }catch(err){
         console.log("Exceptions from PHDImpoterHandler ::",err)
@@ -126,9 +96,6 @@ export async function PHDImpoterHandler(data: BaseImporter) {
 export async function SIGImpoterHandler(data: BaseImporter) {
     try{
         const result = await getfileReader(data);
-        if(!result){
-            return "Result not found";
-        }
         return result;
     }catch(err){
         console.log("Exceptions from SIGImpoterHandler ::",err)
@@ -138,9 +105,6 @@ export async function SIGImpoterHandler(data: BaseImporter) {
 export async function CNDImpoterHandler(data: BaseImporter) {
     try{
         const result = await getfileReader(data);
-        if(!result){
-            return "Result not found";
-        }
         return result;
     }catch(err){
         console.log("Exceptions from CNDImpoterHandler ::",err)
