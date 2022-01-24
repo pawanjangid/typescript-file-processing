@@ -5,7 +5,6 @@ import* as Handler from "../readersFunctions/fileReader"
 export async function AAHImporterHandler(data: BaseImporter) {
     try{
         const result = await getfileReader(data);
-        console.log("result --->",result)
         return result;
     }catch(err){
         console.log("Exceptions from AAHPharmaFunctions ::",err)
@@ -119,10 +118,10 @@ export const getfileReader =async (data:any) => {
             return resultText;
 
         case 'CSV'://CSV File
+            //console.log("Request for Processing---->",data);
             const resultCSV = await Handler.csvFileProcessor(data);
-            console.log("resiltCSV ---->",resultCSV)
+            //console.log("resiltCSV ---->",resultCSV)
             return resultCSV;
-
         case 'XLSX' || 'XLS':// Excel File
             const resultXLSX = await Handler.xlsxFileProcessor(data);
             console.log("resultXLSX ---->",resultXLSX)

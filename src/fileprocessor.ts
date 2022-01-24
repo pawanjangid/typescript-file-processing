@@ -4,7 +4,6 @@ import * as readline from 'readline';
 import * as CsvParse from 'csv-parse';
 import * as xlsx from "xlsx";
 import * as convert from 'xml-js';
-import * as xml2js from 'xml2js';
 
 
 

@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "@types/node": "^17.0.10",
+    "aws-sdk": "^2.1062.0",
     "csv-parse": "^5.0.4",
     "ts-node": "^10.4.0",
     "typescript": "^4.5.4",

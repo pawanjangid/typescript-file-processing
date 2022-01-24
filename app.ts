@@ -1,6 +1,5 @@
 import * as AWS from 'aws-sdk';
 import * as Handler from "./src/importerHandler/handler"
-import * as path from 'path';
 
 //S3 credentials
 var s3 = new AWS.S3({
@@ -11,19 +10,21 @@ var s3 = new AWS.S3({
 
 var options = {
     Bucket: 'fileprocessbucket',
-    Key: "Cavendish2.csv",
+    //Key: "COUNTR2.TXT",
+    //Key:"AahProductFile.xml",
+    Key:"AahProductFile.xlsx"
 };
 
 async function executeTask(data: any) {
-
     let fileData= await downloadFromS3(options);
     data.FileData = fileData.Body.toString('utf-8');
-    console.log("data ---->",data)
+    data.FileName = options.Key
+    console.log("data Excute Task ---->",data)
     switch (data.SupplierCode) {
 
         case 'AAH'://AAH Pharmaceuticals
-            console.log('*** AAH Pharmaceuticals ***');
-            await Handler.AAHImporterHandler(data)
+            //console.log('*** AAH Pharmaceuticals ***');
+            await Handler.AAHImporterHandler(data);
             break;
 
         case 'AHL'://Alliance Healthcare
@@ -84,38 +85,104 @@ async function executeTask(data: any) {
 }
 
 
-let wholesellerData = {
-    //FilePath: path.resolve(__dirname, 'files/Cavendish.csv'),
-    SupplierCode: "AAH",
-    FileExtension: "CSV",
-    Headers: [
+// let wholesellerData = {
+//     //FilePath: path.resolve(__dirname, 'files/Cavendish.csv'),
+//     SupplierCode: "AAH",
+//     FileExtension: "TXT",
+//     Headers: [
+//         {
+//             title: "Description",
+//             start: 7,
+//             length: 34
+//         },
+//         {
+//             title: "PackSize",
+//             start: 41,
+//             length: 3
+//         },
+//         {
+//             title: "Price",
+//             start: 45,
+//             length: 6
+//         },
+//         {
+//             title: "PipCode",
+//             start: 78,
+//             length: 7
+//         },
+//         {
+//             title: "EAN",
+//             start: 85,
+//             length: 13
+//         },
+//     ]
+// }
+
+
+// let csvHeader = {
+//     SupplierCode: "AAH",
+//     FileExtension: "CSV",
+//     Headers:[
+//         {
+//             Title:'PIP CODE',
+//             Label:"PIPCODE"
+//         },
+//         {
+//             Title:'CAV CODE',
+//             Label:"CAVCODE"
+//         },
+//         {
+//             Title:'PRODUCT DESCRIPTION',
+//             Label:"DESCRIPTION"
+//         },
+//         {
+//             Title:'PACK SIZE',
+//             Label:"PACKSIZE"
+//         },
+//         {
+//             Title:'CATEGORY',
+//             Label:"CATEGORY"
+//         }
+//     ]
+// }
+
+let request = {
+    SupplierCode: "AHL",
+    FileExtension:'XLSX',
+    Headers:[
+
         {
-            title: "Description",
-            start: 7,
-            length: 34
+
+            Title:'Description',
+            Label:"Description"
+
         },
+
         {
-            title: "PackSize",
-            start: 41,
-            length: 3
+
+            Title:'PackSize',
+            Label:"PackSize"
+
         },
+
         {
-            title: "Price",
-            start: 45,
-            length: 6
+
+            Title:'PipCode',
+            Label:"PipCode"
+
         },
+
         {
-            title: "PipCode",
-            start: 78,
-            length: 7
-        },
-        {
-            title: "EAN",
-            start: 85,
-            length: 13
-        },
+
+            Title:'Ean',
+            Label:"Ean"
+
+        }
+
     ]
+
 }
+
 
 //Read file from S3 Bucket
 async function downloadFromS3 (data:any) {
@@ -123,44 +190,11 @@ async function downloadFromS3 (data:any) {
     return fileStream;
 }
 
-executeTask(wholesellerData);
+executeTask(request);
 
 
 
-// let csvHeader = {
-//     FilePath:'',
-//     FileType:'csv',
-//     Headers:[
-//         {
-//             Title:'LinkCode',
-//             Label:"Order Code"
-//         },
-//         {
-//             Title:'Description',
-//             Label:"Description"
-//         },
-//         {
-//             Title:'PackSize',
-//             Label:"Pack Size"
-//         },
-//         {
-//             Title:'PipCode',
-//             Label:"Pip Code"
-//         },
-//         {
-//             Title:'TradePrice',
-//             Label:"Price"
-//         },
-//         {
-//             Title:'Ean',
-//             Label:"EAN"
-//         },
-//         {
-//             Title:'MinIssueQuantity',
-//             Label:"Outer Pack"
-//         }
-//     ]
-// }
+
 
 // let txtHeader = [
 //     {

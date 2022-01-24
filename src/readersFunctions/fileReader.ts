@@ -1,85 +1,115 @@
-
-import * as fs from 'fs';
-import * as readline from 'readline';
 import * as CsvParse from 'csv-parse';
 import * as xlsx from "xlsx";
+import * as convert from 'xml-js';
 
-export const textFileProcessor = async (path:any) =>{
-
-  const fileStream = fs.createReadStream(path.FilePath);
-  const rl = readline.createInterface({
-    input: fileStream,
-    crlfDelay: Infinity
-    });
-
-    let data  = [];
-    for await (const line of rl) {
-        var wordArray:any = {};
-    for (let i = 0; i < path.Headers.length; i++) {
-      var obj  = path.Headers[i];
-        wordArray[obj.title] = line.substring(obj.start, obj.length+obj.start);
+export const textFileProcessor = async (request:any) =>{
+  
+    let inputdata = request.FileData;
+        const rl = inputdata.split('\r\n');
+        let data  = [];
+        for await (const line of rl) {
+            var wordArray:any = {};
+        for (let i = 0; i < request.Headers.length; i++) {
+          var obj  = request.Headers[i];
+            wordArray[obj.title] = line.substring(obj.start,obj.length+obj.start); 
+        }
+        data.push(wordArray);
     }
-    data.push(wordArray);
-}
-    var object = JSON.stringify(data);
-    console.log(JSON.parse(object));
+        var object = JSON.stringify(data);
+        console.log(JSON.parse(object));
+      
 }
 
-export const csvFileProcessor = async(path:any) =>{
-        console.log("path --->",path)
+export const csvFileProcessor = (request:any) =>{
+    
         var results:any;
-        //headers of csv file
-        const headers = ['PIP CODE', 'CAV CODE', 'PRODUCT DESCRIPTION', 'PACK SIZE','CATEGORY'];
 
-        //readt file form your lpath
-        const fileContent = fs.readFileSync(path.FilePath, { encoding: 'utf-8' });
+        let HeaderRequest  = [];
 
-        //now parse file into json..
-        CsvParse.parse(fileContent, {
+        for (let hindex = 0; hindex < request.Headers.length; hindex++) {
+              HeaderRequest.push(request.Headers[hindex].Title);
+        }
+
+        CsvParse.parse(request.FileData, {
           delimiter: ',',
           fromLine:2,
-        //   cast:(colmnValue,context) =>{
-        //       if(context.column === 'geoNameId'){
-        //           return parseInt(colmnValue,10);
-        //       }
-        //       return colmnValue;
-        //   },
-        //   on_record: (line, context) => {
-        //       if (line.country !== 'India') {
-        //         return;
-        //       }
-
-        //       return line;
-        //     },
-          columns: headers,
+          on_record: (line:any, context) => {
+            for (let hd = 0; hd < HeaderRequest.length; hd++) {
+              if(!(line[request.Headers[hd].Label] == line[request.Headers[hd].Title])){
+                line[request.Headers[hd].Label] = line[request.Headers[hd].Title];
+                              delete line[request.Headers[hd].Title];
+              } 
+            }
+            return line;
+          },
+          columns: HeaderRequest,
         }, (error, result: any) => {
           if (error) {
             console.error(error);
           }
-
           const resultJSON = JSON.stringify(result);
-          console.log(JSON.parse(resultJSON));
-
           results = resultJSON;
+          console.log(JSON.parse(resultJSON));
         });
-        console.log("out side results --->",results)
-        return results;
 
+        return "Hello";
 }
 
-export const xlsxFileProcessor = (path:any) =>{
-    var workbook = xlsx.readFile(path.FilePath);
+export const xlsxFileProcessor = (request:any) =>{
+    console.log("Processing : ",request);
+      let HeaderRequest  = [];
+      let outputResult:any = [];
+        for (let hindex = 0; hindex < request.Headers.length; hindex++) {
+              HeaderRequest.push(request.Headers[hindex].Title);
+        }
+    var workbook = xlsx.readFile(request.FileData);
     var sheetNames = workbook.SheetNames;
     var sheetIndex = 1;
+    var data = xlsx.utils.sheet_to_json(workbook.Sheets[sheetNames[sheetIndex-1]],{header:HeaderRequest});
 
-    var data = xlsx.utils.sheet_to_json(workbook.Sheets[sheetNames[sheetIndex-1]],{header:["name","name2","minOccurs","maxOccurs","name3","type"]});
-    return data;
+    for (let i = 0; i < data.length; i++) {
+
+      let object:any = data[i];
+
+      for (let hd = 0; hd < HeaderRequest.length; hd++) {
+
+        if(!(object[request.Headers[hd].Label] == object[request.Headers[hd].Title])){
+          object[request.Headers[hd].Label] = object[request.Headers[hd].Title];
+                        delete object[request.Headers[hd].Title];
+        }
+        
+      }
+
+      outputResult.push(object);
+    }
+    const resultJSON = JSON.stringify(outputResult);
+    return (JSON.parse(resultJSON));
 }
 
-export const xmlFileProcessor = (path:any) =>{
-    var workbook = xlsx.readFile(path.FilePath);
-    var sheetNames = workbook.SheetNames;
-    var sheetIndex = 1;
-    var data = xlsx.utils.sheet_to_json(workbook.Sheets[sheetNames[sheetIndex-1]],{header:["name","name2","minOccurs","maxOccurs","name3","type"]});
-    return data;
+export const xmlFileProcessor = (request:any) =>{
+      let HeaderRequest  = [];
+      let outputResult:any = [];
+        for (let hindex = 0; hindex < request.Headers.length; hindex++) {
+              HeaderRequest.push(request.Headers[hindex].Title);
+        }
+
+         var file  = request.FileName.split('.');
+        var fileName = file[0];
+
+        var fileContent = request.FileData;
+
+            var options = {compact: true, ignoreComment: true, spaces: 4, ignoreAttrs:false};
+
+            var result:any = convert.xml2js(fileContent, options);
+            let LastIndex:any =  Object.values(result[fileName])[Object.values(result[fileName]).length - 1];
+              for (let row = 0; row < LastIndex.length; row++) {
+                var wordArray:any = {};
+                for (let column = 0; column < HeaderRequest.length; column++) {
+                  var obj  = request.Headers[column];
+                  wordArray[obj.Label] = LastIndex[row][obj.Title]._text;
+                }
+                outputResult.push(wordArray);
+              }
+              console.log(outputResult);
+              return outputResult;
 }

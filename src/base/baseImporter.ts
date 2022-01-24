@@ -1,5 +1,5 @@
 export class BaseImporter {
-    FilePath?: string;
+    FileData?: any;
     SupplierCode?: string;
     FileExtension?: string;
     SkipRows?: number;
@@ -7,7 +7,7 @@ export class BaseImporter {
 }
 
 export class BaseImporterRow {
-    FilePath?: string;
+    FileData?: any;
     SupplierCode?: string;
     FileExtension?: string;
     SkipRows?: number;
