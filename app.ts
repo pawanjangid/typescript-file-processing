@@ -1,7 +1,24 @@
+import * as AWS from 'aws-sdk';
 import * as Handler from "./src/importerHandler/handler"
 import * as path from 'path';
 
+//S3 credentials
+var s3 = new AWS.S3({
+    accessKeyId: "AKIAQEOAJVKBNEJKKJMR",
+    secretAccessKey: "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",
+    region: 'us-east-1'
+});
+
+var options = {
+    Bucket: 'fileprocessbucket',
+    Key: "Cavendish2.csv",
+};
+
 async function executeTask(data: any) {
+
+    let fileData= await downloadFromS3(options);
+    data.FileData = fileData.Body.toString('utf-8');
+    console.log("data ---->",data)
     switch (data.SupplierCode) {
 
         case 'AAH'://AAH Pharmaceuticals
@@ -66,10 +83,11 @@ async function executeTask(data: any) {
     }
 }
 
+
 let wholesellerData = {
-    FilePath: path.resolve(__dirname, 'files/MEDICL.TXT'),
-    SupplierCode: "AHL",
-    FileExtension: "TXT",
+    //FilePath: path.resolve(__dirname, 'files/Cavendish.csv'),
+    SupplierCode: "AAH",
+    FileExtension: "CSV",
     Headers: [
         {
             title: "Description",
@@ -98,6 +116,13 @@ let wholesellerData = {
         },
     ]
 }
+
+//Read file from S3 Bucket
+async function downloadFromS3 (data:any) {
+    const fileStream:any = await s3.getObject(data).promise();
+    return fileStream;
+}
+
 executeTask(wholesellerData);
 
 
