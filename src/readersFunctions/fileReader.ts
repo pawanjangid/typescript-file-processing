@@ -21,7 +21,7 @@ export const textFileProcessor = async (request:any) =>{
 }
 
 export const csvFileProcessor = (request:any) =>{
-    
+  return new Promise((resolve, reject) => {
         var results:any;
 
         let HeaderRequest  = [];
@@ -45,14 +45,13 @@ export const csvFileProcessor = (request:any) =>{
           columns: HeaderRequest,
         }, (error, result: any) => {
           if (error) {
-            console.error(error);
+            reject(error);
           }
           const resultJSON = JSON.stringify(result);
           results = resultJSON;
-          console.log(JSON.parse(resultJSON));
+          resolve(JSON.parse(resultJSON));
         });
-
-        return "Hello";
+      })
 }
 
 export const xlsxFileProcessor = (request:any) =>{

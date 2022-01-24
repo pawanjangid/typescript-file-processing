@@ -10,16 +10,15 @@ var s3 = new AWS.S3({
 
 var options = {
     Bucket: 'fileprocessbucket',
-    //Key: "COUNTR2.TXT",
+    Key: "COUNTR2.TXT",
     //Key:"AahProductFile.xml",
-    Key:"AahProductFile.xlsx"
+    //Key:"Cavendish.csv"
 };
 
 async function executeTask(data: any) {
     let fileData= await downloadFromS3(options);
     data.FileData = fileData.Body.toString('utf-8');
     data.FileName = options.Key
-    console.log("data Excute Task ---->",data)
     switch (data.SupplierCode) {
 
         case 'AAH'://AAH Pharmaceuticals
@@ -85,38 +84,38 @@ async function executeTask(data: any) {
 }
 
 
-// let wholesellerData = {
-//     //FilePath: path.resolve(__dirname, 'files/Cavendish.csv'),
-//     SupplierCode: "AAH",
-//     FileExtension: "TXT",
-//     Headers: [
-//         {
-//             title: "Description",
-//             start: 7,
-//             length: 34
-//         },
-//         {
-//             title: "PackSize",
-//             start: 41,
-//             length: 3
-//         },
-//         {
-//             title: "Price",
-//             start: 45,
-//             length: 6
-//         },
-//         {
-//             title: "PipCode",
-//             start: 78,
-//             length: 7
-//         },
-//         {
-//             title: "EAN",
-//             start: 85,
-//             length: 13
-//         },
-//     ]
-// }
+let wholesellerData = {
+    //FilePath: path.resolve(__dirname, 'files/Cavendish.csv'),
+    SupplierCode: "AAH",
+    FileExtension: "TXT",
+    Headers: [
+        {
+            title: "Description",
+            start: 7,
+            length: 34
+        },
+        {
+            title: "PackSize",
+            start: 41,
+            length: 3
+        },
+        {
+            title: "Price",
+            start: 45,
+            length: 6
+        },
+        {
+            title: "PipCode",
+            start: 78,
+            length: 7
+        },
+        {
+            title: "EAN",
+            start: 85,
+            length: 13
+        },
+    ]
+}
 
 
 // let csvHeader = {
@@ -146,42 +145,42 @@ async function executeTask(data: any) {
 //     ]
 // }
 
-let request = {
-    SupplierCode: "AHL",
-    FileExtension:'XLSX',
-    Headers:[
+// let request = {
+//     SupplierCode: "AHL",
+//     FileExtension:'XLSX',
+//     Headers:[
 
-        {
+//         {
 
-            Title:'Description',
-            Label:"Description"
+//             Title:'Description',
+//             Label:"Description"
 
-        },
+//         },
 
-        {
+//         {
 
-            Title:'PackSize',
-            Label:"PackSize"
+//             Title:'PackSize',
+//             Label:"PackSize"
 
-        },
+//         },
 
-        {
+//         {
 
-            Title:'PipCode',
-            Label:"PipCode"
+//             Title:'PipCode',
+//             Label:"PipCode"
 
-        },
+//         },
 
-        {
+//         {
 
-            Title:'Ean',
-            Label:"Ean"
+//             Title:'Ean',
+//             Label:"Ean"
 
-        }
+//         }
 
-    ]
+//     ]
 
-}
+// }
 
 
 //Read file from S3 Bucket
@@ -190,7 +189,7 @@ async function downloadFromS3 (data:any) {
     return fileStream;
 }
 
-executeTask(request);
+executeTask(wholesellerData);
 
 
 

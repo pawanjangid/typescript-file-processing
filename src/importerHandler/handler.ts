@@ -118,9 +118,8 @@ export const getfileReader =async (data:any) => {
             return resultText;
 
         case 'CSV'://CSV File
-            //console.log("Request for Processing---->",data);
             const resultCSV = await Handler.csvFileProcessor(data);
-            //console.log("resiltCSV ---->",resultCSV)
+            console.log(resultCSV);
             return resultCSV;
         case 'XLSX' || 'XLS':// Excel File
             const resultXLSX = await Handler.xlsxFileProcessor(data);
