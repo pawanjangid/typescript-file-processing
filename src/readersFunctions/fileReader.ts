@@ -1,36 +1,42 @@
 import * as CsvParse from 'csv-parse';
 import * as xlsx from "xlsx";
 import * as convert from 'xml-js';
+import * as Excel from 'exceljs';
+import console from 'console';
 
 export const textFileProcessor = async (request:any) =>{
-  
-    let inputdata = request.FileData;
+  return new Promise((resolve, reject) => {
+    request.fileData.on('data', async function (chunk:any) {
+      const inputdata = Buffer.from(chunk).toString('utf8');
         const rl = inputdata.split('\r\n');
         let data  = [];
         for await (const line of rl) {
             var wordArray:any = {};
-        for (let i = 0; i < request.Headers.length; i++) {
-          var obj  = request.Headers[i];
+        for (let i = 0; i < request.headers.length; i++) {
+          var obj  = request.headers[i];
             wordArray[obj.title] = line.substring(obj.start,obj.length+obj.start); 
         }
         data.push(wordArray);
     }
         var object = JSON.stringify(data);
-        console.log(JSON.parse(object));
+        resolve(JSON.parse(object));
+    });
+  })
       
 }
 
 export const csvFileProcessor = (request:any) =>{
   return new Promise((resolve, reject) => {
+    request.fileData.on('data', async function (chunk:any) {
+      const inputdata = Buffer.from(chunk).toString('utf8');
         var results:any;
-
         let HeaderRequest  = [];
 
         for (let hindex = 0; hindex < request.Headers.length; hindex++) {
               HeaderRequest.push(request.Headers[hindex].Title);
         }
 
-        CsvParse.parse(request.FileData, {
+        CsvParse.parse(inputdata, {
           delimiter: ',',
           fromLine:2,
           on_record: (line:any, context) => {
@@ -52,54 +58,59 @@ export const csvFileProcessor = (request:any) =>{
           resolve(JSON.parse(resultJSON));
         });
       })
+    })
 }
 
 export const xlsxFileProcessor = (request:any) =>{
-    console.log("Processing : ",request);
-      let HeaderRequest  = [];
-      let outputResult:any = [];
-        for (let hindex = 0; hindex < request.Headers.length; hindex++) {
-              HeaderRequest.push(request.Headers[hindex].Title);
-        }
-    var workbook = xlsx.readFile(request.FileData);
-    var sheetNames = workbook.SheetNames;
-    var sheetIndex = 1;
-    var data = xlsx.utils.sheet_to_json(workbook.Sheets[sheetNames[sheetIndex-1]],{header:HeaderRequest});
+  return new Promise((resolve, reject) => {
+            let headerKeys:any = [];
+            let rows:any = [];
+          const workbook = new Excel.Workbook();
 
-    for (let i = 0; i < data.length; i++) {
+          workbook.xlsx.read(request.fileData).then(function(workbook){
+          const worksheet = workbook.getWorksheet('Sheet1');
+             
+             worksheet.eachRow({ includeEmpty: false}, function(row:any,rowNumber) {
+                  if(rowNumber===1){
+                    let rowOne = row.values;
+                    for (let hindex = 0; hindex < request.headers.length; hindex++) {
+                        if(rowOne.indexOf(request.headers[hindex].title) > -1){
+                          headerKeys[request.headers[hindex].label] = rowOne.indexOf(request.headers[hindex].title);
+                        }else{
+                          reject(new Error("Header "+request.headers[hindex].title+" not found in targeted excel file"));
+                        }
+                    }
+                  }else{
+                  let Line:any = {};
+                  for (var key in headerKeys) {
+                      Line[key] = row.values[headerKeys[key]];
+                  }
+                    rows.push(Line); 
+                  }
+              });
+              const resultJSON = JSON.stringify(rows);
+              resolve(JSON.parse(resultJSON));
+          });
 
-      let object:any = data[i];
-
-      for (let hd = 0; hd < HeaderRequest.length; hd++) {
-
-        if(!(object[request.Headers[hd].Label] == object[request.Headers[hd].Title])){
-          object[request.Headers[hd].Label] = object[request.Headers[hd].Title];
-                        delete object[request.Headers[hd].Title];
-        }
-        
-      }
-
-      outputResult.push(object);
-    }
-    const resultJSON = JSON.stringify(outputResult);
-    return (JSON.parse(resultJSON));
+        });
 }
 
 export const xmlFileProcessor = (request:any) =>{
+  
+  return new Promise((resolve, reject) => {
+    request.fileData.on('data', async function (chunk:any) {
+      const inputdata = Buffer.from(chunk).toString('utf8');
       let HeaderRequest  = [];
       let outputResult:any = [];
         for (let hindex = 0; hindex < request.Headers.length; hindex++) {
               HeaderRequest.push(request.Headers[hindex].Title);
         }
-
          var file  = request.FileName.split('.');
         var fileName = file[0];
 
-        var fileContent = request.FileData;
-
             var options = {compact: true, ignoreComment: true, spaces: 4, ignoreAttrs:false};
 
-            var result:any = convert.xml2js(fileContent, options);
+            var result:any = convert.xml2js(inputdata, options);
             let LastIndex:any =  Object.values(result[fileName])[Object.values(result[fileName]).length - 1];
               for (let row = 0; row < LastIndex.length; row++) {
                 var wordArray:any = {};
@@ -109,6 +120,7 @@ export const xmlFileProcessor = (request:any) =>{
                 }
                 outputResult.push(wordArray);
               }
-              console.log(outputResult);
-              return outputResult;
+              resolve(outputResult);
+    });
+  });
 }

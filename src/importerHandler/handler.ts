@@ -15,7 +15,7 @@ export async function aahImporterHandler(data: BaseImporter) {
             },
             {
                 title: 'PackSize',
-                label: "Pack Size"
+                label: "PackSize"
             },
             {
                 title: 'PipCode',
@@ -113,7 +113,7 @@ export async function depImpoterHandler(data: BaseImporter) {
             },
             {
                 title: 'PACK SIZE',
-                label: "Pack Size"
+                label: "PackSize"
             },
         ]
         const result = await getFileReader(data);
@@ -146,7 +146,7 @@ export async function ethImpoterHandler(data: BaseImporter) {
             },
             {
                 title: 'PackSize',
-                label: "Pack Size"
+                label: "PackSize"
             },
         ]
         const result = await getFileReader(data);
@@ -169,7 +169,7 @@ export async function lexImpoterHandler(data: BaseImporter) {
             },
             {
                 title: 'Size',
-                label: "Pack Size"
+                label: "PackSize"
             },
             {
                 title: 'Retail Price',
@@ -192,15 +192,15 @@ export async function otdImpoterHandler(data: BaseImporter) {
             },
             {
                 title: 'OTC CODE',
-                label: "AAH ID"
+                label: "AAHID"
             },
             {
                 title: 'PRODUCT DESCRIPTION',
                 label: "Description"
             },
             {
-                title: 'PACK SIZE',
-                label: "Pack Size"
+                title: 'PACKSIZE',
+                label: "PackSize"
             },
         ]
         const result = await getFileReader(data);
@@ -238,7 +238,7 @@ export async function sigImpoterHandler(data: BaseImporter) {
             },
             {
                 title: 'PROD CODE',
-                label: "AAH ID"
+                label: "AAHID"
             },
             {
                 title: 'PRODUCT',
@@ -246,7 +246,7 @@ export async function sigImpoterHandler(data: BaseImporter) {
             },
             {
                 title: 'PACK SIZE',
-                label: "Pack Size"
+                label: "PackSize"
             },
             {
                 title: 'SIGMA PRICE',

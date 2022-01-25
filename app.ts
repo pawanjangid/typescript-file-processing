@@ -10,20 +10,17 @@ var s3 = new AWS.S3({
 
 var options = {
     Bucket: 'fileprocessbucket',
-    // Key: "COUNTR2.TXT",
+     Key: "COUNTR2.TXT",
    // Key:"AahProductFile.xml",
     // Key:"Cavendish.csv"
-    Key:"AahProductFile (4).xlsx"
+    //Key:"AahProductFile (4).xlsx"
 };
 
 async function executeTask(data: any) {
-
     let fileData = await downloadFromS3(options);
     data.fileData = fileData;
-    data.fileName = options.Key
-
+    data.fileName = options.Key;
     switch (data.SupplierCode) {
-
         case 'AAH'://AAH Pharmaceuticals
             console.log('*** AAH Pharmaceuticals ***');
             const aahResult = await handler.aahImporterHandler(data);
@@ -104,7 +101,9 @@ async function downloadFromS3(data: any) {
 }
 
 let wholesellerData = {
-    supplierCode: "AAH",
-    fileExtension: "XLSX"
+    SupplierCode: "AHL",
+    fileExtension: "TXT"
 }
+
+
 executeTask(wholesellerData);
