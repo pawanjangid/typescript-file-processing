@@ -77,12 +77,12 @@ export async function cavImpoterHandler(data: BaseImporter) {
     try {
         data.headers = [
             {
-                title: 'PIPCODE',
+                title: 'PIP CODE',
                 label: "PipCode"
             },
             {
-                title: 'PROD CODE',
-                label: "AAH ID"
+                title: 'CAV CODE',
+                label: "AAHID"
             },
             {
                 title: 'PRODUCT DESCRIPTION',
@@ -90,8 +90,8 @@ export async function cavImpoterHandler(data: BaseImporter) {
             },
             {
                 title: 'PACK SIZE',
-                label: "Pack Size"
-            },
+                label: "PackSize"
+            }
         ]
         const result = await getFileReader(data);
         return result;
@@ -304,17 +304,14 @@ export const getFileReader = async (data: any) => {
 
         case 'CSV':// CSV File
             const resultCSV = await readerFunction.csvFileProcessor(data);
-            console.log(resultCSV);
             return resultCSV;
 
         case 'XLSX' || 'XLS':// Excel File
             const resultXLSX = await readerFunction.xlsxFileProcessor(data);
-            console.log("resultXLSX ---->", resultXLSX)
             return resultXLSX;
 
         case 'XML':// XML File
             const resultXML = await readerFunction.xmlFileProcessor(data);
-            console.log("resultXML ---->", resultXML)
             return resultXML;
     }
 }

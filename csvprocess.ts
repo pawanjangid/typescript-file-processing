@@ -15,7 +15,7 @@ type WorldCity = {
   const csvFilePath = path.resolve(__dirname, 'files/world-cities_csv.csv');
 
   //headers of csv file
-  const headers = ['name', 'country', 'subCountry', 'geoNameId'];
+  const headers = ['name', 'country', 'geoNameId'];
 
   //readt file form your lpath
   const fileContent = fs.readFileSync(csvFilePath, { encoding: 'utf-8' });
