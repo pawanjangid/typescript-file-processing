@@ -1,5 +1,7 @@
 import * as AWS from 'aws-sdk';
+import { resolve } from 'path';
 import * as Handler from "./src/importerHandler/handler"
+
 
 //S3 credentials
 var s3 = new AWS.S3({
@@ -10,14 +12,15 @@ var s3 = new AWS.S3({
 
 var options = {
     Bucket: 'fileprocessbucket',
-    Key: "COUNTR2.TXT",
-    //Key:"AahProductFile.xml",
-    //Key:"Cavendish.csv"
+    // Key: "COUNTR2.TXT",
+   // Key:"AahProductFile.xml",
+    // Key:"Cavendish.csv"
+    Key:"AahProductFile (4).xlsx"
 };
 
 async function executeTask(data: any) {
     let fileData = await downloadFromS3(options);
-    data.FileData = fileData.Body.toString('utf-8');
+    data.FileData = fileData;
     data.FileName = options.Key
     switch (data.SupplierCode) {
 
@@ -84,14 +87,13 @@ async function executeTask(data: any) {
 }
 
 let wholesellerData = {
-    SupplierCode: "AHL",
-    FileExtension: "TXT"
+    SupplierCode: "AAH",
+    FileExtension: "XLSX"
 }
 
 //Read file from S3 Bucket
 async function downloadFromS3(data: any) {
-    const fileStream: any = await s3.getObject(data).promise();
-    return fileStream;
+    return s3.getObject(data).createReadStream();
 }
 
 executeTask(wholesellerData);
