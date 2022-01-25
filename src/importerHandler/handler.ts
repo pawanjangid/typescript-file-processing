@@ -1,45 +1,45 @@
 import { BaseImporter } from "../base/baseImporter"
-import * as Handler from "../readersFunctions/fileReader"
+import * as readerFunction from "../readersFunctions/fileReader"
 
 
-export async function AAHImporterHandler(data: BaseImporter) {
+export async function aahImporterHandler(data: BaseImporter) {
     try {
-        data.Headers = [
+        data.headers = [
             {
-                Title: 'LinkCode',
-                Label: "PIPCODE"
+                title: 'LinkCode',
+                label: "PIPCODE"
             },
             {
-                Title: 'Description',
-                Label: "Description"
+                title: 'Description',
+                label: "Description"
             },
             {
-                Title: 'PackSize',
-                Label: "Pack Size"
+                title: 'PackSize',
+                label: "Pack Size"
             },
             {
-                Title: 'PipCode',
-                Label: "PipCode"
+                title: 'PipCode',
+                label: "PipCode"
             },
             {
-                Title: 'TradePrice',
-                Label: "Price"
+                title: 'TradePrice',
+                label: "Price"
             },
             {
-                Title: 'Ean',
-                Label: "EAN"
+                title: 'Ean',
+                label: "EAN"
             }
         ]
-        const result = await getfileReader(data);
+        const result = await getFileReader(data);
         return result;
     } catch (err) {
-        console.log("Exceptions from AAHPharmaFunctions ::", err)
+        console.log("Exceptions from aahImporterHandler ::", err)
     }
 }
 
-export async function AHLImpoterHandler(data: BaseImporter) {
+export async function ahlImpoterHandler(data: BaseImporter) {
     try {
-        data.Headers = [
+        data.headers = [
             {
                 title: "Description",
                 start: 7,
@@ -66,253 +66,254 @@ export async function AHLImpoterHandler(data: BaseImporter) {
                 length: 13
             }
         ]
-        const result = await getfileReader(data);
+        const result = await getFileReader(data);
         return result;
     } catch (err) {
-        console.log("Exceptions from AHLImpoterHandler ::", err)
+        console.log("Exceptions from ahlImpoterHandler ::", err)
     }
 }
 
-export async function CAVImpoterHandler(data: BaseImporter) {
+export async function cavImpoterHandler(data: BaseImporter) {
     try {
-        data.Headers = [
+        data.headers = [
             {
-                Title: 'PIPCODE',
-                Label: "PipCode"
+                title: 'PIPCODE',
+                label: "PipCode"
             },
             {
-                Title: 'PROD CODE',
-                Label: "AAH ID"
+                title: 'PROD CODE',
+                label: "AAH ID"
             },
             {
-                Title: 'PRODUCT DESCRIPTION',
-                Label: "Description"
+                title: 'PRODUCT DESCRIPTION',
+                label: "Description"
             },
             {
-                Title: 'PACK SIZE',
-                Label: "Pack Size"
+                title: 'PACK SIZE',
+                label: "Pack Size"
             },
         ]
-        const result = await getfileReader(data);
+        const result = await getFileReader(data);
         return result;
     } catch (err) {
-        console.log("Exceptions from CAVImpoterHandler ::", err)
+        console.log("Exceptions from cavImpoterHandler ::", err)
     }
 }
 
-export async function DEPImpoterHandler(data: BaseImporter) {
+export async function depImpoterHandler(data: BaseImporter) {
     try {
-        data.Headers = [
+        data.headers = [
             {
-                Title: 'Pip Code',
-                Label: "PipCode"
+                title: 'Pip Code',
+                label: "PipCode"
             },
             {
-                Title: 'Concatenate',
-                Label: "Description"
+                title: 'Concatenate',
+                label: "Description"
             },
             {
-                Title: 'PACK SIZE',
-                Label: "Pack Size"
+                title: 'PACK SIZE',
+                label: "Pack Size"
             },
         ]
-        const result = await getfileReader(data);
+        const result = await getFileReader(data);
         return result;
     } catch (err) {
-        console.log("Exceptions from DEPImpoterHandler ::", err)
+        console.log("Exceptions from depImpoterHandler ::", err)
     }
 }
 
-export async function EPOImpoterHandler(data: BaseImporter) {
+export async function epoImpoterHandler(data: BaseImporter) {
     try {
 
-        const result = await getfileReader(data);
+        const result = await getFileReader(data);
         return result;
     } catch (err) {
-        console.log("Exceptions from EPOImpoterHandler ::", err)
+        console.log("Exceptions from epoImpoterHandler ::", err)
     }
 }
 
-export async function ETHImpoterHandler(data: BaseImporter) {
+export async function ethImpoterHandler(data: BaseImporter) {
     try {
-        data.Headers = [
+        data.headers = [
             {
-                Title: 'PIPCode',
-                Label: "PipCode"
+                title: 'PIPCode',
+                label: "PipCode"
             },
             {
-                Title: 'Description',
-                Label: "Description"
+                title: 'Description',
+                label: "Description"
             },
             {
-                Title: 'PackSize',
-                Label: "Pack Size"
+                title: 'PackSize',
+                label: "Pack Size"
             },
         ]
-        const result = await getfileReader(data);
+        const result = await getFileReader(data);
         return result;
     } catch (err) {
-        console.log("Exceptions from ETHImpoterHandler ::", err)
+        console.log("Exceptions from ethImpoterHandler ::", err)
     }
 }
 
-export async function LEXImpoterHandler(data: BaseImporter) {
+export async function lexImpoterHandler(data: BaseImporter) {
     try {
-        data.Headers = [
+        data.headers = [
             {
-                Title: 'PIPCode',
-                Label: "PipCode"
+                title: 'PIPCode',
+                label: "PipCode"
             },
             {
-                Title: 'Description',
-                Label: "Description"
+                title: 'Description',
+                label: "Description"
             },
             {
-                Title: 'Size',
-                Label: "Pack Size"
+                title: 'Size',
+                label: "Pack Size"
             },
             {
-                Title: 'Retail Price',
-                Label: "Price"
+                title: 'Retail Price',
+                label: "Price"
             },
         ]
-        const result = await getfileReader(data);
+        const result = await getFileReader(data);
         return result;
     } catch (err) {
-        console.log("Exceptions from LEXImpoterHandler ::", err)
+        console.log("Exceptions from lexImpoterHandler ::", err)
     }
 }
 
-export async function OTDImpoterHandler(data: BaseImporter) {
+export async function otdImpoterHandler(data: BaseImporter) {
     try {
-        data.Headers = [
+        data.headers = [
             {
-                Title: 'PIP CODE',
-                Label: "PipCode"
+                title: 'PIP CODE',
+                label: "PipCode"
             },
             {
-                Title: 'OTC CODE',
-                Label: "AAH ID"
+                title: 'OTC CODE',
+                label: "AAH ID"
             },
             {
-                Title: 'PRODUCT DESCRIPTION',
-                Label: "Description"
+                title: 'PRODUCT DESCRIPTION',
+                label: "Description"
             },
             {
-                Title: 'PACK SIZE',
-                Label: "Pack Size"
+                title: 'PACK SIZE',
+                label: "Pack Size"
             },
         ]
-        const result = await getfileReader(data);
+        const result = await getFileReader(data);
         return result;
     } catch (err) {
-        console.log("Exceptions from OTDImpoterHandler ::", err)
+        console.log("Exceptions from otdImpoterHandler ::", err)
     }
 }
 
-export async function SANImpoterHandler(data: BaseImporter) {
+export async function sanImpoterHandler(data: BaseImporter) {
     try {
 
-        const result = await getfileReader(data);
+        const result = await getFileReader(data);
         return result;
     } catch (err) {
-        console.log("Exceptions from SANImpoterHandler ::", err)
+        console.log("Exceptions from sanImpoterHandler ::", err)
     }
 }
 
-export async function PHDImpoterHandler(data: BaseImporter) {
+export async function phdImpoterHandler(data: BaseImporter) {
     try {
-        const result = await getfileReader(data);
+        const result = await getFileReader(data);
         return result;
     } catch (err) {
-        console.log("Exceptions from PHDImpoterHandler ::", err)
+        console.log("Exceptions from phdImpoterHandler ::", err)
     }
 }
 
-export async function SIGImpoterHandler(data: BaseImporter) {
+export async function sigImpoterHandler(data: BaseImporter) {
     try {
-        data.Headers = [
+        data.headers = [
             {
-                Title: 'PIP CODE',
-                Label: "PipCode"
+                title: 'PIP CODE',
+                label: "PipCode"
             },
             {
-                Title: 'PROD CODE',
-                Label: "AAH ID"
+                title: 'PROD CODE',
+                label: "AAH ID"
             },
             {
-                Title: 'PRODUCT',
-                Label: "Description"
+                title: 'PRODUCT',
+                label: "Description"
             },
             {
-                Title: 'PACK SIZE',
-                Label: "Pack Size"
+                title: 'PACK SIZE',
+                label: "Pack Size"
             },
             {
-                Title: 'SIGMA PRICE',
-                Label: "Price"
+                title: 'SIGMA PRICE',
+                label: "Price"
             },
         ]
-        const result = await getfileReader(data);
+        const result = await getFileReader(data);
         return result;
     } catch (err) {
-        console.log("Exceptions from SIGImpoterHandler ::", err)
+        console.log("Exceptions from sigImpoterHandler ::", err)
     }
 }
 
-export async function CNDImpoterHandler(data: BaseImporter) {
+export async function cndImpoterHandler(data: BaseImporter) {
     try {
-        data.Headers = [
+        data.headers = [
             {
-                Title: 'Pip_code',
-                Label: "PipCode"
+                title: 'Pip_code',
+                label: "PipCode"
             },
             {
-                Title: 'Company_Name',
-                Label: "Wholesaler Code"
+                title: 'Company_Name',
+                label: "Wholesaler Code"
             },
             {
-                Title: 'Full_Description',
-                Label: "Description"
+                title: 'Full_Description',
+                label: "Description"
             },
             {
-                Title: 'DT_Price',
-                Label: "Price"
+                title: 'DT_Price',
+                label: "Price"
             },
             {
-                Title: 'Trade_price',
-                Label: "Price"
+                title: 'Trade_price',
+                label: "Price"
             },
             {
-                Title: 'AMPP',
-                Label: "AMPP"
+                title: 'AMPP',
+                label: "AMPP"
             },
         ]
-        const result = await getfileReader(data);
+        const result = await getFileReader(data);
         return result;
     } catch (err) {
-        console.log("Exceptions from CNDImpoterHandler ::", err)
+        console.log("Exceptions from cndImpoterHandler ::", err)
     }
 }
 
 // Call File Reader according to file format
-export const getfileReader = async (data: any) => {
-    switch (data.FileExtension) {
-        case 'TXT'://Text File
-            const resultText = await Handler.textFileProcessor(data);
+export const getFileReader = async (data: any) => {
+    switch (data.fileExtension) {
+        case 'TXT':// Text File
+            const resultText = await readerFunction.textFileProcessor(data);
             return resultText;
 
-        case 'CSV'://CSV File
-            const resultCSV = await Handler.csvFileProcessor(data);
+        case 'CSV':// CSV File
+            const resultCSV = await readerFunction.csvFileProcessor(data);
             console.log(resultCSV);
             return resultCSV;
+
         case 'XLSX' || 'XLS':// Excel File
-            const resultXLSX = await Handler.xlsxFileProcessor(data);
+            const resultXLSX = await readerFunction.xlsxFileProcessor(data);
             console.log("resultXLSX ---->", resultXLSX)
             return resultXLSX;
 
         case 'XML':// XML File
-            const resultXML = await Handler.xmlFileProcessor(data);
+            const resultXML = await readerFunction.xmlFileProcessor(data);
             console.log("resultXML ---->", resultXML)
             return resultXML;
     }
