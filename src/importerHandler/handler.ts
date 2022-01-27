@@ -18,10 +18,6 @@ export async function aahImporterHandler(data: BaseImporter) {
                 label: "PackSize"
             },
             {
-                title: 'PipCode',
-                label: "PipCode"
-            },
-            {
                 title: 'TradePrice',
                 label: "Price"
             },

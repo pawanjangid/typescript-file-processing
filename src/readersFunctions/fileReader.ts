@@ -3,21 +3,27 @@ import * as Excel from 'exceljs';
 
 export const textFileProcessor = async (request: any) => {
   return new Promise((resolve, reject) => {
-    request.fileData.on('data', async function (chunk: any) {
-      const inputdata = Buffer.from(chunk).toString('utf8');
-      const rl = inputdata.split('\r\n');
-      let data = [];
-      for await (const line of rl) {
-        var wordArray: any = {};
-        for (let i = 0; i < request.headers.length; i++) {
-          var obj = request.headers[i];
-          wordArray[obj.title] = line.substring(obj.start, obj.length + obj.start);
+
+    if(request.fileExtension==='TXT'){
+        request.fileData.on('data', async function (chunk: any) {
+        const inputdata = Buffer.from(chunk).toString('utf8');
+        const rl = inputdata.split('\r\n');
+        let data = [];
+        for await (const line of rl) {
+          var wordArray: any = {};
+          for (let i = 0; i < request.headers.length; i++) {
+            var obj = request.headers[i];
+            wordArray[obj.title] = line.substring(obj.start, obj.length + obj.start);
+          }
+          data.push(wordArray);
         }
-        data.push(wordArray);
-      }
-      var object = JSON.stringify(data);
-      resolve(JSON.parse(object));
-    });
+        var object = JSON.stringify(data);
+        resolve(JSON.parse(object));
+      });  
+    }else{
+      reject(new Error("Make sure file extension is XML"));
+    }
+
   })
 
 }
@@ -40,7 +46,7 @@ export const csvFileProcessor = (request: any) => {
         if (rowOne.indexOf(request.headers[hindex].title) > -1) {
           headerKeys[request.headers[hindex].label] = rowOne.indexOf(request.headers[hindex].title);
         } else {
-          reject(new Error("Header " + request.headers[hindex].title + " not found in targeted excel file"));
+          reject(new Error("Header " + request.headers[hindex].title + " not found in targeted CSV file"));
         }
       }
 
@@ -97,29 +103,34 @@ export const xlsxFileProcessor = (request: any) => {
 export const xmlFileProcessor = (request: any) => {
 
   return new Promise((resolve, reject) => {
-    request.fileData.on('data', async function (chunk: any) {
-      const inputdata = Buffer.from(chunk).toString('utf8');
-      let HeaderRequest = [];
-      let outputResult: any = [];
-      for (let hindex = 0; hindex < request.headers.length; hindex++) {
-        HeaderRequest.push(request.headers[hindex].Title);
-      }
-      var file = request.fileName.split('.');
-      var fileName = file[0];
+    if(request.fileExtension==='xml'){
+          request.fileData.on('data', async function (chunk: any) {
+          const inputdata = Buffer.from(chunk).toString('utf8');
+          let HeaderRequest = [];
+          let outputResult: any = [];
+          for (let hindex = 0; hindex < request.headers.length; hindex++) {
+            HeaderRequest.push(request.headers[hindex].Title);
+          }
+          var file = request.fileName.split('.');
+          var fileName = file[0];
 
-      var options = { compact: true, ignoreComment: true, spaces: 4, ignoreAttrs: false };
+          var options = { compact: true, ignoreComment: true, spaces: 4, ignoreAttrs: false };
 
-      var result: any = convert.xml2js(inputdata, options);
-      let LastIndex: any = Object.values(result[fileName])[Object.values(result[fileName]).length - 1];
-      for (let row = 0; row < LastIndex.length; row++) {
-        var wordArray: any = {};
-        for (let column = 0; column < HeaderRequest.length; column++) {
-          var obj = request.headers[column];
-          wordArray[obj.label] = LastIndex[row][obj.title]._text;
-        }
-        outputResult.push(wordArray);
-      }
-      resolve(outputResult);
-    });
+          var result: any = convert.xml2js(inputdata, options);
+          let LastIndex: any = Object.values(result[fileName])[Object.values(result[fileName]).length - 1];
+          for (let row = 0; row < LastIndex.length; row++) {
+            var wordArray: any = {};
+            for (let column = 0; column < HeaderRequest.length; column++) {
+              var obj = request.headers[column];
+              wordArray[obj.label] = LastIndex[row][obj.title]._text;
+            }
+            outputResult.push(wordArray);
+          }
+          resolve(outputResult);
+        });
+    }else{
+      reject(new Error("Make sure file extension is XML"));
+    }
+
   });
 }

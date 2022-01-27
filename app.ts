@@ -10,8 +10,8 @@ var s3 = new AWS.S3({
 
 var options = {
     Bucket: 'fileprocessbucket',
-    //Key: "COUNTR2.TXT",
-    Key:"AahProductFile.xml",
+    Key: "COUNTR2.TXT",
+    //Key:"AahProductFile.xml",
     //Key:"Cavendish2.csv"
     //Key:"AahProductFile (4).xlsx"
 };
@@ -103,8 +103,8 @@ async function downloadFromS3(data: any) {
 }
 
 let wholesellerData = {
-    SupplierCode: "AAH",
-    fileExtension: "XML"
+    SupplierCode: "AHL",
+    fileExtension: "TXT"
 }
 
 
